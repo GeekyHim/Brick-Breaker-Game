@@ -1,12 +1,12 @@
 import javax.swing.JPanel;
 import java.awt.event.KeyListener;
-import java.util.Timer;
+import javax.swing.Timer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-//panel where we run our game
+    //panel where we run our game
 public class Gameplay extends JPanel implements KeyListener,ActionListener  {
     // basic properties
     private boolean play = false;
@@ -29,10 +29,8 @@ public class Gameplay extends JPanel implements KeyListener,ActionListener  {
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
-        //timer = new Timer(delay,this);
-        //timer.start();
-
-
+        timer = new Timer(delay,this);
+        timer.start();
     }
 
     public void paint(Graphics g){
@@ -53,34 +51,44 @@ public class Gameplay extends JPanel implements KeyListener,ActionListener  {
 
         //the ball
         g.setColor(Color.yellow);
-        g.fillRect(ballPosX, ballPosY, 20, 20);
+        g.fillOval(ballPosX, ballPosY, 20, 20);
 
+        g.dispose();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyTyped'");
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyPressed'");
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'keyReleased'");
+        timer.start();
+        repaint(); // recall paint method, and draw everything again tabhi show hoga
     }
     
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode()== KeyEvent.VK_RIGHT){
+            if(playerX>=600) playerX =600; //agar border pe hai toh vahi rakho
+            else moveRight();
+        }
+        if(e.getKeyCode()== KeyEvent.VK_RIGHT){
+            if(playerX<=10) playerX = 10; //agar border pe hai toh vahi rakho
+            else moveLeft();
+        }
+    }
+
+    public void moveRight(){
+        play = true; // upar play false pe set tha
+        playerX+=20; // 20 to right
+    }
+
+    public void moveLeft(){
+        play = true; // upar play false pe set tha
+        playerX-=20; 
+    }
+    //No need for these but need to define nevertheless coz interface ka part and is compulsory
+    @Override
+    public void keyReleased(KeyEvent e) {}
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
         
     
 }
